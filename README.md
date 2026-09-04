@@ -1,27 +1,18 @@
-# Claude Skills Portfolio
+# Raw Footage → Highlight Reel
 
-A collection of custom "skills" I've designed for Claude — reusable, spec'd workflows that turn a repeatable task into something Claude can execute reliably, end to end, without me re-explaining the process every time.
+Turns 100+GB of raw trip footage into a finished highlight reel — spec'd with explicit user checkpoints, timeout/failure handling, and delivery verification built in, not bolted on.
 
-Each skill folder contains:
-- **`SKILL.md`** — the actual spec: trigger conditions, required inputs, step-by-step execution logic, and a verification checklist. This is the artifact Claude reads and follows.
-- **`CASE_STUDY.md`** — the product story behind it: the problem, the scoping decisions, what broke in practice, and how the spec evolved.
+## What's in this folder
 
-The skills themselves don't need to share a theme. What they have in common is the *process* — how each one is scoped, constrained, and hardened against real-world failure.
+- **[`SKILL.md`](./SKILL.md)** — the spec Claude actually executes: trigger conditions, required inputs, a 14-step process, and a verification checklist.
+- **[`CASE_STUDY.md`](./CASE_STUDY.md)** — the product story: why key decisions were scoped the way they were, what broke during the first real production run, and how the spec was hardened as a result.
 
-## Skills
+## Why this is here
 
-| Skill | Category | Problem it solves | Status |
-|---|---|---|---|
-| [raw-footage-highlight-reel](./skills/raw-footage-highlight-reel) | Media / creative automation | Turns a folder of raw, unedited trip/ride footage (GoPro + phone dumps) into a curated, chaptered highlight video at one or more target lengths | Shipped |
+This isn't a demo of "AI editing video." It's an example of specifying an agentic workflow the way you'd spec anything else a system needs to do unattended and correctly:
 
-*(More skills added here as they're built.)*
+- **Decide what needs a human checkpoint vs. what can be automated** — and be explicit about which is which (e.g. camera-source priority is never defaulted; it's always surfaced as a choice).
+- **Design for the failure modes, not just the happy path** — shell timeouts, silent stream-corruption on re-encode, file-size limits on delivery. Each one is a rule in the spec because it actually happened once and needed a real fix.
+- **Write verification into the process itself** — the spec doesn't end at "render the file"; it ends at "confirm checksums match and tell the user exactly where it landed."
 
-## Why this matters as a body of work
-
-Anyone can write a one-off prompt. The harder — and more transferable — skill is:
-1. **Scoping** what should be decided by the user vs. decided automatically (and being explicit about which is which).
-2. **Designing for failure** — anticipating where an agentic workflow will break (timeouts, storage limits, corrupted intermediate files) and specifying recovery paths before they're needed.
-3. **Writing verification into the spec**, not bolting it on after — every skill here ends with an explicit "how do we know this worked" checklist.
-4. **Iterating from real runs** — each `CASE_STUDY.md` documents what actually happened the first time the skill ran, and what changed in the spec as a result.
-
-That's the same muscle as writing a PRD or an eng spec — just applied to specifying an AI agent's behavior instead of a human team's.
+Read `CASE_STUDY.md` for the details on what actually broke and how the spec evolved.
